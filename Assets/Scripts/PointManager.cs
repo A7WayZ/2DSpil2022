@@ -11,5 +11,6 @@ public class PointManager : MonoBehaviour
     public void AddPoint(int amount)
     {
         Point += amount;
+        PointText.text = "Point: " + Point;
     }
 }
