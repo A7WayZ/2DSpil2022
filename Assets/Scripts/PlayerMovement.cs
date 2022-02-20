@@ -7,10 +7,15 @@ public class PlayerMovement : MonoBehaviour
     public float Speed;
     public float JumpPower;
 
+    public LayerMask Mask;
+    public Animator PlayerAnimator;
+    public SpriteRenderer SR;
+
     private Rigidbody2D RB;
 
     private float _startJumpPower;
     private float _startSpeed;
+    private bool _isGrounded;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +32,12 @@ public class PlayerMovement : MonoBehaviour
         
         Vector2 movement = new Vector2(0, RB.velocity.y);
 
+        float DistanceToGround = GetComponent<Collider2D>().bounds.extents.y;
+
+        _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, DistanceToGround+0.5f, Mask);
+
+
+
         if(Input.GetKey(KeyCode.A))
         {
             movement.x = -Speed*Time.deltaTime;
@@ -36,11 +47,32 @@ public class PlayerMovement : MonoBehaviour
             movement.x = Speed*Time.deltaTime;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && _isGrounded == true)
         {
             RB.AddForce(new Vector2(0, JumpPower));
+            _isGrounded = false;
         }
 
+        if(movement.x != 0)
+        {
+            // Moving
+            PlayerAnimator.SetBool("isMoving", true);
+        }
+        else
+        {
+            // Not moving
+            PlayerAnimator.SetBool("isMoving", false);
+        }
+
+        if(movement.x > 0)
+        {
+            SR.flipX = false;
+        }
+        else
+        {
+            SR.flipX = true;
+        }
+        
         RB.velocity = movement;
 
     }

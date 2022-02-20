@@ -6,7 +6,7 @@ public class SpeedBoost : MonoBehaviour
 {
 
     public float SpeedDuration = 3;
-    public float SpeedBoostAmount = 750;
+    public float SpeedBoostAmount = 1200;
 
     // Start is called before the first frame update
     void Start()
