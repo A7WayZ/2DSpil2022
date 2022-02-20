@@ -5,7 +5,8 @@ using UnityEngine;
 public class PickUp : MonoBehaviour
 {
 
-    public PointManager pm;
+    private PointManager pm;
+    public AudioClip PickUpAudioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class PickUp : MonoBehaviour
         if (collision.tag == "Player")
         {
             pm.AddPoint(1);
+            AudioSource.PlayClipAtPoint(PickUpAudioClip, transform.position);
             Destroy(gameObject);
         }
      }
